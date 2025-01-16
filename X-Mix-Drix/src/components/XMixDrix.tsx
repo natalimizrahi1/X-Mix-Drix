@@ -2,17 +2,17 @@ import { FC, useState } from "react";
 import { XIcon, OIcon } from "./Icons";
 import styles from "./XMixDrix.module.css";
 
-type Player = boolean | null; // true for X, false for O, null for empty
+type Player = boolean | null;
 type Board = Player[];
 type WinningLine = number[] | null;
 
 const XMixDrix: FC = () => {
   const [board, setBoard] = useState<Board>(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState<boolean>(true);
-  const [gameOver, setGameOver] = useState<boolean>(false);
+  const [winner, setWinner] = useState<Player | "draw" | null>(null);
   const [winningLine, setWinningLine] = useState<WinningLine>(null);
 
-  const calculateWinner = (squares: Board): Player | "draw" => {
+  const calculateWinner = (squares: Board): Player | "draw" | null => {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -31,19 +31,24 @@ const XMixDrix: FC = () => {
         return squares[a];
       }
     }
-    return squares.every(square => square !== null) ? "draw" : null;
+
+    if (squares.every(square => square !== null)) {
+      return "draw";
+    }
+
+    return null;
   };
 
   const handleClick = (index: number): void => {
-    if (board[index] || gameOver) return;
+    if (board[index] || winner !== null) return;
 
     const newBoard = [...board];
     newBoard[index] = isXNext;
     setBoard(newBoard);
 
-    const winner = calculateWinner(newBoard);
-    if (winner !== null) {
-      setGameOver(true);
+    const result = calculateWinner(newBoard);
+    if (result !== null) {
+      setWinner(result);
     } else {
       setIsXNext(!isXNext);
     }
@@ -52,32 +57,35 @@ const XMixDrix: FC = () => {
   const resetGame = (): void => {
     setBoard(Array(9).fill(null));
     setIsXNext(true);
-    setGameOver(false);
+    setWinner(null);
     setWinningLine(null);
   };
 
   const getStatus = (): string => {
-    const winner = calculateWinner(board);
-    if (winner === "draw") return "It's a Draw!";
-    if (winner !== null) return `Player ${winner ? "X" : "O"} Wins!`;
-    return `Player ${isXNext ? "X" : "O"}'s Turn`;
+    if (winner === "draw") {
+      return "Game Over - It's a Draw!";
+    }
+    if (winner !== null) {
+      return `Game Over - Player ${winner ? "X" : "O"} Wins!`;
+    }
+    return `Current Turn: Player ${isXNext ? "X" : "O"}`;
   };
 
   return (
     <div className={styles.gameContainer}>
       <div className={styles.gameBoard}>
-        <div className={styles.gameStatus}>{getStatus()}</div>
+        <div className={`${styles.gameStatus} ${winner !== null ? styles.winnerStatus : ""}`}>{getStatus()}</div>
 
         <div className={styles.boardGrid}>
           {board.map((cell, index) => (
-            <button key={index} className={`${styles.cell} ${winningLine?.includes(index) ? styles.winningCell : ""}`} onClick={() => handleClick(index)} disabled={cell !== null || gameOver}>
+            <button key={index} className={`${styles.cell} ${winningLine?.includes(index) ? styles.winningCell : ""}`} onClick={() => handleClick(index)} disabled={cell !== null || winner !== null}>
               {cell !== null && <div style={{ position: "absolute", inset: 0 }}>{cell ? <XIcon /> : <OIcon />}</div>}
             </button>
           ))}
         </div>
 
-        <button onClick={resetGame} className={styles.newGameButton}>
-          New Game
+        <button onClick={resetGame} className={`${styles.newGameButton} ${winner !== null ? styles.gameOverButton : ""}`}>
+          {winner !== null ? "Play Again" : "Reset Game"}
         </button>
       </div>
     </div>

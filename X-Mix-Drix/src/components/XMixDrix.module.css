@@ -1,101 +1,137 @@
 .gameContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%);
-  }
-  
-  .gameBoard {
-    width: 100%;
-    max-width: 400px;
-    padding: 1.5rem;
-  }
-  
-  .gameStatus {
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333;
-  }
-  
-  .boardGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .cell {
-    aspect-ratio: 1;
-    position: relative;
-    overflow: hidden;
-    background-color: white;
-    border-radius: 0.75rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 2px solid #eee;
-    transition: all 0.2s ease;
-    cursor: pointer;
-  }
-  
-  .cell:disabled {
-    cursor: default;
-  }
-  
-  .cell:not(:disabled):hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    border-color: #ccc;
-  }
-  
-  .winningCell {
-    border-color: #ffd700;
-    animation: pulse 2s infinite;
-  }
-  
-  .newGameButton {
-    display: block;
-    margin: 0 auto;
-    padding: 0.75rem 1.5rem;
-    font-size: 1.125rem;
-    font-weight: bold;
-    color: white;
-    background: linear-gradient(to right, #4db6ac, #9575cd);
-    border: none;
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .newGameButton:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-width: 100vw;
+  background: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%);
+}
 
-  @keyframes drawX {
-    from { stroke-dashoffset: 60; }
-    to { stroke-dashoffset: 0; }
+.gameBoard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  min-width: 80vw;
+  min-height: 80vh;
+  justify-content: center;
+}
+
+.gameStatus {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.winnerStatus {
+  color: #2196f3;
+  font-size: 2.25rem;
+  text-shadow: 0 0 10px rgba(33, 150, 243, 0.3);
+}
+
+.boardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.cell {
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #eee;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+}
+
+.cell:disabled {
+  cursor: default;
+  opacity: 0.9;
+}
+
+.cell:not(:disabled):hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  border-color: #ccc;
+}
+
+.winningCell {
+  border-color: #ffd700;
+  animation: pulse 2s infinite;
+  opacity: 1 !important;
+}
+
+.newGameButton {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(to right, #4db6ac, #9575cd);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 200px;
+}
+
+.newGameButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.gameOverButton {
+  background: linear-gradient(to right, #4caf50, #45a049);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes drawX {
+  from {
+    stroke-dashoffset: 60;
   }
-  
-  @keyframes drawO {
-    from { stroke-dashoffset: 50; }
-    to { stroke-dashoffset: 0; }
+  to {
+    stroke-dashoffset: 0;
   }
-  
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+}
+
+@keyframes drawO {
+  from {
+    stroke-dashoffset: 50;
   }
-  
-  .xIcon path {
-    stroke-dasharray: 60;
-    animation: drawX 0.6s ease forwards;
+  to {
+    stroke-dashoffset: 0;
   }
-  
-  .oIcon circle {
-    stroke-dasharray: 50;
-    animation: drawO 0.6s ease forwards;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
   }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.xIcon path {
+  stroke-dasharray: 60;
+  animation: drawX 0.6s ease forwards;
+}
+
+.oIcon circle {
+  stroke-dasharray: 50;
+  animation: drawO 0.6s ease forwards;
+}
