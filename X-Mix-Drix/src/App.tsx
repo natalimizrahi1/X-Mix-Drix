@@ -1,4 +1,4 @@
-import XNixDrix from './components/XMixDrix'
+import XMixDrix from './components/XMixDrix'
 
 function App() {
 
