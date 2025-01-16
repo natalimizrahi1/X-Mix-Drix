@@ -1,0 +1,101 @@
+.gameContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%);
+  }
+  
+  .gameBoard {
+    width: 100%;
+    max-width: 400px;
+    padding: 1.5rem;
+  }
+  
+  .gameStatus {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  .boardGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cell {
+    aspect-ratio: 1;
+    position: relative;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid #eee;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .cell:disabled {
+    cursor: default;
+  }
+  
+  .cell:not(:disabled):hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    border-color: #ccc;
+  }
+  
+  .winningCell {
+    border-color: #ffd700;
+    animation: pulse 2s infinite;
+  }
+  
+  .newGameButton {
+    display: block;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(to right, #4db6ac, #9575cd);
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .newGameButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+
+  @keyframes drawX {
+    from { stroke-dashoffset: 60; }
+    to { stroke-dashoffset: 0; }
+  }
+  
+  @keyframes drawO {
+    from { stroke-dashoffset: 50; }
+    to { stroke-dashoffset: 0; }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  
+  .xIcon path {
+    stroke-dasharray: 60;
+    animation: drawX 0.6s ease forwards;
+  }
+  
+  .oIcon circle {
+    stroke-dasharray: 50;
+    animation: drawO 0.6s ease forwards;
+  }
