@@ -1,16 +1,19 @@
 import { FC, useState } from 'react';
+import styles from './XMixDrix.module.css'; // Adjust the path as necessary
+import XIcon from './XIcon'; // Adjust the path as necessary
+import OIcon from './OIcon'; // Adjust the path as necessary
 
 type Player = boolean | null; // true for X, false for O, null for empty
 type Board = Player[];
 type WinningLine = number[] | null;
 
-const TicTacToe: FC = () => {
+const XMixDrix: FC = () => {
   const [board, setBoard] = useState<Board>(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState<boolean>(true);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [winningLine, setWinningLine] = useState<WinningLine>(null);
 
-  const calculateWinner = (squares: Board): Player => {
+  const calculateWinner = (squares: Board): Player | 'draw' => {
     const lines = [
       [0, 1, 2], [3, 4, 5], [6, 7, 8],
       [0, 3, 6], [1, 4, 7], [2, 5, 8],
@@ -88,4 +91,4 @@ const TicTacToe: FC = () => {
   );
 };
 
-export default TicTacToe;
+export default XMixDrix ;
